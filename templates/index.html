@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Graphs</title>
+
+
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+              google.charts.load('current', {packages: ['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+          
+              function drawChart() {
+                // Define the chart to be drawn.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Element');
+                data.addColumn('number', 'Percentage');
+                data.addRows([
+                  ['Garbage', {{garbage}}],
+                  ['Potholes', {{pothole}}],
+                  ['Sewage', {{sewage}}],
+                  ['Sanitation', {{sanitation}}],
+                ]);
+                var options = {
+                  title: 'Problems',
+                  is3D: true,
+                };
+                // Instantiate and draw the chart.
+                var chart = new google.visualization.PieChart(document.getElementById('myPieChart'));
+                chart.draw(data, null);
+                var barchart_options = {title:'Grievance Problem',
+                       width:400,
+                       height:300,
+                       legend: 'none'};
+                var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
+                barchart.draw(data, barchart_options);
+
+                var options = {
+                title : 'Grievance Problem',
+                vAxis: {title: 'No.of Reports'},
+                hAxis: {title: 'Month'},
+                seriesType: 'bars',
+                series: {5: {type: 'line'}}
+                };
+
+                var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+
+                var data = google.visualization.arrayToDataTable([
+                ['Year', 'Complete', 'Incomplete'],
+                ['2014',  1000,      400],
+                ['2015',  1170,      460],
+                ['2016',  660,       1120],
+                ['2017',  1030,      540]
+                ]);
+
+                var options = {
+                title: 'Grievance Problem',
+                vAxis: {title: 'No.of Reports'},
+                curveType: 'function',
+                legend: { position: 'bottom' }
+                };
+
+                var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+                chart.draw(data, options);
+              }
+            
+            
+
+            </script>
+            </head>
+          <body>
+            <!-- Identify where the chart should be drawn. -->
+            <div id="myPieChart"></div>
+            <div align='center' id="barchart_div"></div>
+            <div id="chart_div"></div>
+            <div id="curve_chart"></div>
+           
+            <div>
+              <form action="/upload/" method="POST" >
+                {% csrf_token %}
+                <input type="text" name='type' placeholder="type">
+                <input type="text" name='reporter' placeholder="reporter">
+                <input type="text" name='dept' placeholder="dept">
+                <input type="submit" placeholder="type">
+                
+              </form>
+            </div>
+          </body>
+</html>
